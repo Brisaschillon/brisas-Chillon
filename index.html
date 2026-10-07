@@ -1,246 +1,206 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Deudas — Brisas del Malecón de Chillón</title>
-    <style>
-        * {
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-        body {
-            background-color: #1a1a1a;
-            color: #fff;
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            font-size: 22px;
-            text-align: center;
-            margin-bottom: 30px;
-            color: #f5a623;
-        }
-        .box {
-            background-color: #2d2d2d;
-            padding: 25px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            font-weight: bold;
-            color: #ddd;
-        }
-        select, button {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            background-color: #3d3d3d;
-            color: #fff;
-        }
-        button {
-            background-color: #f5a623;
-            color: #000;
-            font-weight: bold;
-            margin-top: 20px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background-color: #e69500;
-        }
-        .resultado {
-            margin-top: 25px;
-            padding: 15px;
-            background-color: #3d3d3d;
-            border-radius: 8px;
-            display: none;
-        }
-        .resultado.visible {
-            display: block;
-        }
-        .deuda-si {
-            color: #ff6b6b;
-            font-weight: bold;
-        }
-        .deuda-no {
-            color: #4cd964;
-            font-weight: bold;
-        }
-        .tarifas {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #2d2d2d;
-            border-radius: 12px;
-        }
-        .tarifas h3 {
-            color: #f5a623;
-            margin-top: 0;
-        }
-        .actualizado {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #888;
-            text-align: right;
-        }
-    </style>
-</head>
-<body>
+<!-- ============================================== -->
+<!-- 📊 HISTORIAL DE APORTES POR AÑO -->
+<!-- ============================================== -->
+<div class="seccion-anual">
+  <h2>📅 Historial de Aportes</h2>
 
-    <h1>🔍 Consulta de Deudas</h1>
-    <p style="text-align:center; color:#aaa; margin-bottom:25px;">Asoc. AA.HH. Brisas del Malecón de Chillón — Zonal 14</p>
+  <!-- 2017 - 2022 -->
+  <div class="tarjeta-anual">
+    <div class="anual-cabecera">
+      <span class="anio">📆 2017 — 2022</span>
+      <span class="conteo">(__ faenas, __ reuniones)</span>
+      <span class="estado al-dia">Al día</span>
+      <span class="total">S/. 0.00</span>
+    </div>
+  </div>
 
-    <div class="box">
-        <label for="manzana">Manzana</label>
-        <select id="manzana">
-            <option value="">Selecciona</option>
-            <option value="C">Manzana C</option>
-        </select>
+  <!-- 2023 -->
+  <div class="tarjeta-anual">
+    <div class="anual-cabecera">
+      <span class="anio">📆 2023</span>
+      <span class="conteo">(9 faenas, 2 reuniones)</span>
+      <span class="estado al-dia">Al día</span>
+      <span class="total">S/. 0.00</span>
+    </div>
+  </div>
 
-        <label for="lote">Lote</label>
-        <select id="lote">
-            <option value="">Selecciona</option>
-            <option value="1">Lote C 1</option>
-            <option value="2">Lote C 2</option>
-            <option value="3">Lote C 3</option>
-            <option value="4">Lote C 4</option>
-            <option value="5">Lote C 5</option>
-            <option value="6">Lote C 6</option>
-            <option value="7">Lote C 7</option>
-            <option value="8">Lote C 8</option>
-            <option value="9">Lote C 9</option>
-            <option value="10">Lote C 10</option>
-            <option value="11">Lote C 11</option>
-            <option value="12">Lote C 12</option>
-            <option value="13">Lote C 13</option>
-            <option value="14">Lote C 14</option>
-            <option value="15">Lote C 15</option>
-            <option value="16">Lote C 16</option>
-            <option value="17">Lote C 17</option>
-            <option value="18">Lote C 18</option>
-            <option value="19">Lote C 19</option>
-            <option value="20">Lote C 20</option>
-            <option value="21">Lote C 21</option>
-            <option value="22">Lote C 22</option>
-            <option value="23">Lote C 23</option>
-            <option value="24">Lote C 24</option>
-            <option value="25">Lote C 25</option>
-            <option value="26">Lote C 26</option>
-            <option value="27">Lote C 27</option>
-            <option value="28">Lote C 28</option>
-            <option value="29">Lote C 29</option>
-            <option value="30">Lote C 30</option>
-            <option value="31">Lote C 31</option>
-            <option value="32">Lote C 32</option>
-            <option value="33">Lote C 33</option>
-            <option value="34">Lote C 34</option>
-            <option value="35">Lote C 35</option>
-            <option value="36">Lote C 36</option>
-            <option value="37">Lote C 37</option>
-            <option value="38">Lote C 38</option>
-            <option value="39">Lote C 39</option>
-            <option value="40">Lote C 40</option>
-            <option value="41">Lote C 41</option>
-            <option value="42">Lote C 42</option>
-            <option value="43">Lote C 43</option>
-        </select>
+  <!-- 2024 -->
+  <div class="tarjeta-anual">
+    <div class="anual-cabecera">
+      <span class="anio">📆 2024</span>
+      <span class="conteo">(8 faenas, 5 reuniones)</span>
+      <span class="estado al-dia">Al día</span>
+      <span class="total">S/. 0.00</span>
+    </div>
+  </div>
 
-        <button onclick="consultar()">Consultar Deuda</button>
+  <!-- 2025 -->
+  <div class="tarjeta-anual">
+    <div class="anual-cabecera">
+      <span class="anio">📆 2025</span>
+      <span class="conteo">(39 faenas, 12 reuniones)</span>
+      <span class="estado al-dia">Al día</span>
+      <span class="total">S/. 0.00</span>
+    </div>
+  </div>
 
-        <div id="resultado" class="resultado">
-            <p><strong>Nombre:</strong> <span id="nombre"></span></p>
-            <p><strong>Manzana y Lote:</strong> <span id="mlote"></span></p>
-            <p><strong>Estado de cuenta:</strong> <span id="estado"></span></p>
-            <p><strong>Deuda total:</strong> S/ <span id="deuda">0.00</span></p>
-        </div>
+  <!-- 2026 -->
+  <div class="tarjeta-anual">
+    <div class="anual-cabecera">
+      <span class="anio">📆 2026</span>
+      <span class="conteo">(5 faenas, 8 reuniones)</span>
+      <span class="estado al-dia">Al día</span>
+      <span class="total">S/. 0.00</span>
+    </div>
+  </div>
+</div>
+
+<hr style="border:none; border-top:1px solid #444; margin:25px 0;">
+
+<!-- ============================================== -->
+<!-- 💰 CUOTAS / APORTES -->
+<!-- ============================================== -->
+<div class="seccion-cuotas">
+  <h2>💳 Cuotas / Aportes</h2>
+
+  <div class="tarjeta-cuota">
+    <div class="cuota-titulo">
+      <span>Cuotas</span>
+      <span class="etiqueta-pendiente">PENDIENTE</span>
+      <span class="monto-total">S/. 170.00</span>
     </div>
 
-    <div class="tarifas">
-        <h3>📋 Tarifas vigentes</h3>
-        <p>⛏️ Faenas antes del 07/09/2025 = <strong>S/. 50.00</strong></p>
-        <p>⛏️ Faenas desde el 07/09/2025 = <strong>S/. 50.00</strong></p>
-        <p>📋 Reuniones = <strong>S/. 30.00</strong></p>
+    <div class="barra-progreso">
+      <div class="relleno" style="width:54%"></div>
+    </div>
+    <p class="progreso-texto">7 de 13 pagadas — 54%</p>
+
+    <!-- ❌ PENDIENTES -->
+    <h3 class="subtitulo-pendiente">❌ PENDIENTES (6)</h3>
+    <div class="lista-pendientes">
+      <div class="item-pendiente">
+        <span>Cuota para el muro de contención</span>
+        <span class="monto-rojo">S/. 80.00</span>
+      </div>
+      <div class="item-pendiente">
+        <span>Cuota para ENEL</span>
+        <span class="monto-rojo">S/. 40.00</span>
+      </div>
+      <div class="item-pendiente">
+        <span>Cuota para el plano local comunal</span>
+        <span class="monto-rojo">S/. 20.00</span>
+      </div>
+      <div class="item-pendiente">
+        <span>Administrativo Diciembre</span>
+        <span class="monto-rojo">S/. 10.00</span>
+      </div>
+      <div class="item-pendiente">
+        <span>Administrativo Noviembre</span>
+        <span class="monto-rojo">S/. 10.00</span>
+      </div>
+      <div class="item-pendiente">
+        <span>Administrativo Octubre</span>
+        <span class="monto-rojo">S/. 10.00</span>
+      </div>
     </div>
 
-    <p class="actualizado">Actualizado: 28/09/2026</p>
+    <!-- ✅ PAGADAS -->
+    <h3 class="subtitulo-pagado">✅ PAGADAS (7)</h3>
+    <div class="lista-pagadas">
+      <div class="item-pagado">
+        <span>Cerco perimétrico</span>
+        <span class="monto-verde">S/. 10.00 ✅</span>
+      </div>
+      <div class="item-pagado">
+        <span>Carretera La Grama</span>
+        <span class="monto-verde">S/. 10.00 ✅</span>
+      </div>
+      <div class="item-pagado">
+        <span>Replantero</span>
+        <span class="monto-verde">S/. 70.00 ✅</span>
+      </div>
+      <!-- Agrega las 4 restantes igual que estos -->
+    </div>
+  </div>
+</div>
 
-    <script>
-        const vecinos = {
-            "1": { nombre: "BLANCO", deuda: 0 },
-            "2": { nombre: "RNuevo", deuda: 0 },
-            "3": { nombre: "CLEDY VANESSA CASTILLO", deuda: 0 },
-            "4": { nombre: "LUIS CASTILLO ZAMBRANO", deuda: 0 },
-            "5": { nombre: "DEYSI NORA QUISPE MENDOZA", deuda: 0 },
-            "6": { nombre: "ROSA H. ROMUALDO QUISPE", deuda: 0 },
-            "7": { nombre: "TEGCILA MEDINA SAVEDRA", deuda: 0 },
-            "8": { nombre: "CABRERA", deuda: 0 },
-            "9": { nombre: "ANGELA RODAS RODAS", deuda: 0 },
-            "10": { nombre: "ERESVITA ZALAZAR RODAS", deuda: 0 },
-            "11": { nombre: "ALVIDIO SILVA RODAS", deuda: 0 },
-            "12": { nombre: "EMILIANO CARMONA TELL", deuda: 0 },
-            "13": { nombre: "MARIBEL POQUIOMA PULSE", deuda: 0 },
-            "14": { nombre: "SANCHEZ PEREZ PEPE", deuda: 0 },
-            "15": { nombre: "JOSE ALEXANDER TORRES", deuda: 0 },
-            "16": { nombre: "QUISPE OLORTEGUI GANDECIO", deuda: 0 },
-            "17": { nombre: "ELI CESPEDES GRABIEL", deuda: 0 },
-            "18": { nombre: "JAIME MEDINA SABRERA", deuda: 0 },
-            "19": { nombre: "ROBLES CHÁVEZ AONY", deuda: 0 },
-            "20": { nombre: "JORGE RIVERA CAMPOS", deuda: 0 },
-            "21": { nombre: "ESTHER CHIRINOS TRINIDAD", deuda: 0 },
-            "22": { nombre: "TERRONES CABELLOS DORIS", deuda: 0 },
-            "23": { nombre: "DAVILA SILVA MARIA", deuda: 0 },
-            "24": { nombre: "CRUZADO MEDINA SARITA", deuda: 0 },
-            "25": { nombre: "ELIZABETH MENA TIMANO", deuda: 0 },
-            "26": { nombre: "ELSA EVA ALANYA HINOSTRZA", deuda: 0 },
-            "27": { nombre: "ZENAYDA ALANYA HINOSTRZA", deuda: 0 },
-            "28": { nombre: "VILLANUEVA CHAVARRIA WILMER", deuda: 0 },
-            "29": { nombre: "VILLANUEVA CHAVARRIA HECTOR", deuda: 0 },
-            "30": { nombre: "MARITZA CISNEROS CHANLETIN", deuda: 0 },
-            "31": { nombre: "NUÑEZ LEON LELIS", deuda: 0 },
-            "32": { nombre: "CAMPOS NOLASCO", deuda: 0 },
-            "33": { nombre: "VERÓ RAMÍREZ REATIGUE", deuda: 0 },
-            "34": { nombre: "CELMI AGUILAR OTILIO", deuda: 0 },
-            "35": { nombre: "ALBORNOZ SOLIS CYNTHIA", deuda: 0 },
-            "36": { nombre: "SOLIS AYALA ANA ROSA", deuda: 0 },
-            "37": { nombre: "MARTINEZ CUBA JOSE LUIS", deuda: 0 },
-            "38": { nombre: "VILLENA MAMANI EDUARD", deuda: 0 },
-            "39": { nombre: "CHAVEZ LEYVA ROGELIO", deuda: 0 },
-            "40": { nombre: "ISABEL HUANCE SABOYA", deuda: 0 },
-            "41": { nombre: "ROMUALDO QUISPE", deuda: 0 },
-            "42": { nombre: "—", deuda: 0 },
-            "43": { nombre: "—", deuda: 0 }
-        };
+<!-- 🎨 ESTILOS PARA QUE SE VEA BONITO -->
+<style>
+.seccion-anual, .seccion-cuotas {
+  margin: 25px 0;
+  font-family: sans-serif;
+}
+h2 {
+  color: #f5a623;
+  font-size: 20px;
+  margin-bottom: 15px;
+}
+.tarjeta-anual {
+  background: #1e1e2f;
+  border-radius: 12px;
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  border-left: 4px solid #f5a623;
+}
+.anual-cabecera {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  font-size: 16px;
+}
+.anio { font-weight: bold; font-size: 18px; color: #fff; }
+.conteo { color: #aaa; }
+.estado { padding: 4px 12px; border-radius: 20px; font-weight: bold; }
+.al-dia { background: #00a86b; color: white; }
+.total { font-weight: bold; font-size: 20px; color: #00ff88; margin-left: auto; }
 
-        function consultar() {
-            const lote = document.getElementById("lote").value;
-            const resultado = document.getElementById("resultado");
-
-            if (!lote) {
-                alert("Selecciona un lote");
-                resultado.classList.remove("visible");
-                return;
-            }
-
-            const vecino = vecinos[lote];
-            document.getElementById("nombre").textContent = vecino.nombre;
-            document.getElementById("mlote").textContent = "Manzana C — Lote " + lote;
-            
-            if (vecino.deuda > 0) {
-                document.getElementById("estado").innerHTML = "<span class='deuda-si'>⚠️ Con deuda pendiente</span>";
-                document.getElementById("deuda").textContent = vecino.deuda + ".00";
-            } else {
-                document.getElementById("estado").innerHTML = "<span class='deuda-no'>✅ Al día</span>";
-                document.getElementById("deuda").textContent = "0.00";
-            }
-
-            resultado.classList.add("visible");
-        }
-    </script>
-
-</body>
-</html>
+.tarjeta-cuota {
+  background: #1e1e2f;
+  border-radius: 12px;
+  padding: 20px;
+  color: white;
+}
+.cuota-titulo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+  font-size: 20px;
+  font-weight: bold;
+}
+.etiqueta-pendiente {
+  background: #f5a623;
+  color: black;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.monto-total {
+  margin-left: auto;
+  font-size: 24px;
+  color: #f5a623;
+}
+.barra-progreso {
+  height: 10px;
+  background: #333;
+  border-radius: 5px;
+  margin: 10px 0;
+}
+.relleno {
+  height: 100%;
+  background: linear-gradient(90deg, #00a86b, #00ff88);
+  border-radius: 5px;
+}
+.progreso-texto { color: #aaa; font-size: 14px; margin-bottom: 20px; }
+.subtitulo-pendiente { color: #ff4444; margin: 20px 0 10px; font-size: 16px; }
+.subtitulo-pagado { color: #00ff88; margin: 20px 0 10px; font-size: 16px; }
+.item-pendiente, .item-pagado {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+.monto-rojo { color: #ff4444; font-weight: bold; }
+.monto-verde { color: #00ff88; font-weight: bold; }
+</style>
