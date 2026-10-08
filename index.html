@@ -1,361 +1,462 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Consulta de Deudas — Brisas del Malecón de Chillón</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    body {
-      background-color: #000;
-      color: #fff;
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 15px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Deudas — Brisas del Malecón de Chillón</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+        }
 
-    /* 🔍 BUSCADOR */
-    .buscador {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-    .buscador h2 {
-      color: #f5a623;
-      font-size: 18px;
-      margin-bottom: 15px;
-    }
-    .buscador label {
-      display: block;
-      margin: 12px 0 6px;
-      color: #ddd;
-      font-size: 15px;
-    }
-    .buscador select, .buscador button {
-      width: 100%;
-      padding: 12px;
-      border-radius: 8px;
-      border: none;
-      font-size: 15px;
-      background: #333;
-      color: #fff;
-    }
-    .buscador button {
-      background: #f5a623;
-      color: #000;
-      font-weight: bold;
-      margin-top: 15px;
-      cursor: pointer;
-    }
+        body {
+            background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+            color: #fff;
+            max-width: 480px;
+            margin: 0 auto;
+            padding: 20px 16px;
+            min-height: 100vh;
+        }
 
-    /* 📋 FICHA VECINO */
-    .ficha-vecino {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      margin-bottom: 20px;
-      display: none;
-    }
-    .ficha-vecino.visible { display: block; }
-    .ficha-vecino p {
-      margin: 8px 0;
-      font-size: 15px;
-    }
-    .estado-al-dia { color: #00ff88; font-weight: bold; }
-    .estado-pendiente { color: #ff4444; font-weight: bold; }
+        .icono-titulo {
+            text-align: center;
+            margin-bottom: 12px;
+        }
 
-    /* 📊 HISTORIAL ANUAL */
-    .seccion-historial h3 {
-      color: #f5a623;
-      font-size: 16px;
-      margin: 20px 0 10px;
-    }
-    .tarjeta-anual {
-      background: #1e1e2f;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-    .anio { font-weight: bold; font-size: 15px; }
-    .conteo { color: #aaa; font-size: 13px; }
-    .etiqueta-estado {
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 12px;
-      font-weight: bold;
-    }
-    .etiqueta-al-dia { background: #00a86b; color: white; }
-    .monto-anual { font-weight: bold; color: #fff; }
+        h1 {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 6px;
+        }
 
-    /* 💰 CUOTAS */
-    .seccion-cuotas {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 20px;
-    }
-    .cuotas-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    .cuotas-header h3 {
-      color: #f5a623;
-      font-size: 16px;
-    }
-    .monto-total { font-size: 20px; font-weight: bold; color: #f5a623; }
-    .barra-progreso {
-      height: 10px;
-      background: #333;
-      border-radius: 5px;
-      margin: 10px 0;
-    }
-    .barra-relleno {
-      height: 100%;
-      background: linear-gradient(90deg, #00a86b, #00ff88);
-      border-radius: 5px;
-      width: 54%;
-    }
-    .progreso-texto { color: #aaa; font-size: 13px; margin-bottom: 15px; }
-    .subtitulo-pendientes {
-      color: #ff4444;
-      font-size: 14px;
-      margin: 15px 0 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .subtitulo-pagadas {
-      color: #00ff88;
-      font-size: 14px;
-      margin: 15px 0 8px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .item-cuota {
-      display: flex;
-      justify-content: space-between;
-      padding: 6px 0;
-      font-size: 14px;
-      border-bottom: 1px solid #333;
-    }
-    .monto-pendiente { color: #ff4444; font-weight: bold; }
-    .monto-pagado { color: #00ff88; font-weight: bold; }
+        .subtitulo {
+            text-align: center;
+            font-size: 15px;
+            color: #94a3b8;
+            margin-bottom: 32px;
+        }
 
-    /* ⚠️ SIN RESULTADO */
-    .sin-resultado {
-      background: #1a1a1a;
-      border-radius: 12px;
-      padding: 30px;
-      text-align: center;
-      color: #ff4444;
-      display: none;
-    }
-    .sin-resultado.visible { display: block; }
-  </style>
+        .card-busqueda {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+
+        .titulo-busqueda {
+            font-size: 18px;
+            color: #cbd5e1;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .fila-filtros {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .grupo-select {
+            flex: 1;
+        }
+
+        .etiqueta {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        select {
+            width: 100%;
+            padding: 14px 12px;
+            border: none;
+            border-radius: 12px;
+            background: #1e293b;
+            color: #fff;
+            font-size: 17px;
+            font-weight: 600;
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 18px;
+        }
+
+        .btn-consultar {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #06b6d4 0%, #6366f1 100%);
+            color: white;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            transition: transform 0.2s;
+        }
+
+        .btn-consultar:active {
+            transform: scale(0.98);
+        }
+
+        .tarifa-box {
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 12px;
+            padding: 16px;
+            border-left: 3px solid #6366f1;
+        }
+
+        .tarifa-titulo {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #e2e8f0;
+        }
+
+        .tarifa-item {
+            font-size: 14px;
+            color: #cbd5e1;
+            margin: 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-persona {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .nombre-persona {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .ubicacion {
+            font-size: 14px;
+            color: #94a3b8;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .etiqueta-lote {
+            background: rgba(6, 182, 212, 0.2);
+            color: #22d3ee;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            margin-left: auto;
+        }
+
+        .deuda-monto {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ff3b30;
+            margin-top: 8px;
+        }
+
+        .divider-section {
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 24px 0;
+            position: relative;
+        }
+
+        .divider-section::before,
+        .divider-section::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 25%;
+            height: 1px;
+            background: #334155;
+        }
+
+        .divider-section::before { left: 0; }
+        .divider-section::after { right: 0; }
+
+        .card-anio {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 16px;
+            padding: 18px;
+            margin-bottom: 12px;
+        }
+
+        .header-anio {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .anio {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .detalle-anio {
+            font-size: 13px;
+            color: #94a3b8;
+        }
+
+        .estado-deuda {
+            background: rgba(255, 59, 48, 0.15);
+            color: #ff6b6b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .estado-aldia {
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .fila-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            font-size: 16px;
+        }
+
+        .sin-falta {
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .con-falta {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .no-encontrado {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- 🔍 BUSCADOR -->
-  <div class="buscador">
-    <h2>🔎 Consulta de Deudas</h2>
-    <p style="color:#aaa; font-size:13px; margin-bottom:15px;">Asoc. AA.HH. Brisas del Malecón de Chillón — Zonal 14</p>
-    
-    <label for="manzana">Manzana</label>
-    <select id="manzana">
-      <option value="C">Manzana C</option>
-    </select>
+    <h1>Consulta de Deudas</h1>
+    <p class="subtitulo">Selecciona tu manzana y lote para ver tu estado</p>
 
-    <label for="lote">Lote</label>
-    <select id="lote">
-      <option value="">Selecciona tu lote</option>
-      <option value="1">Lote C 1</option>
-      <option value="2">Lote C 2</option>
-      <option value="3">Lote C 3</option>
-      <option value="4">Lote C 4</option>
-      <option value="5">Lote C 5</option>
-      <option value="6">Lote C 6</option>
-      <option value="7">Lote C 7</option>
-      <option value="8">Lote C 8</option>
-      <option value="9">Lote C 9</option>
-      <option value="10">Lote C 10</option>
-      <option value="11">Lote C 11</option>
-      <option value="12">Lote C 12</option>
-      <option value="13">Lote C 13</option>
-      <option value="14">Lote C 14</option>
-      <option value="15">Lote C 15</option>
-      <option value="16">Lote C 16</option>
-      <option value="17">Lote C 17</option>
-      <option value="18">Lote C 18</option>
-      <option value="19">Lote C 19</option>
-      <option value="20">Lote C 20</option>
-      <option value="21">Lote C 21</option>
-      <option value="22">Lote C 22</option>
-      <option value="23">Lote C 23</option>
-      <option value="24">Lote C 24</option>
-      <option value="25">Lote C 25</option>
-      <option value="26">Lote C 26</option>
-      <option value="27">Lote C 27</option>
-      <option value="28">Lote C 28</option>
-      <option value="29">Lote C 29</option>
-      <option value="30">Lote C 30</option>
-      <option value="31">Lote C 31</option>
-      <option value="32">Lote C 32</option>
-      <option value="33">Lote C 33</option>
-      <option value="34">Lote C 34</option>
-      <option value="35">Lote C 35</option>
-      <option value="36">Lote C 36</option>
-      <option value="37">Lote C 37</option>
-      <option value="38">Lote C 38</option>
-      <option value="39">Lote C 39</option>
-      <option value="40">Lote C 40</option>
-      <option value="41">Lote C 41</option>
-      <option value="42">Lote C 42</option>
-      <option value="43">Lote C 43</option>
-    </select>
+    <!-- CAJA DE FILTROS -->
+    <div class="card-busqueda">
+        <h3 class="titulo-busqueda">🔍 BUSCAR POR LOTE</h3>
 
-    <button onclick="consultarDeuda()">🔍 Consultar Deuda</button>
-  </div>
-
-  <!-- 📋 FICHA DEL VECINO -->
-  <div class="ficha-vecino" id="fichaVecino">
-    <p><strong>Nombre:</strong> <span id="res-nombre"></span></p>
-    <p><strong>Manzana y Lote:</strong> Manzana C — Lote <span id="res-lote"></span></p>
-    <p><strong>Estado de cuenta:</strong> <span id="res-estado"></span></p>
-    <p style="font-size:17px; font-weight:bold; color:#f5a623;"><strong>Deuda total:</strong> S/ <span id="res-deuda"></span></p>
-
-    <!-- 📊 HISTORIAL DE APORTES -->
-    <div class="seccion-historial">
-      <h3>📊 Historial de Aportes</h3>
-      <div id="contenedor-historial"></div>
-    </div>
-
-    <!-- 💰 CUOTAS / APORTES -->
-    <div class="seccion-cuotas">
-      <div class="cuotas-header">
-        <h3>💰 Cuotas / Aportes</h3>
-        <span class="monto-total">S/ <span id="cuota-total">170.00</span></span>
-      </div>
-      <p class="progreso-texto">7 de 13 cuotas — 54%</p>
-      <div class="barra-progreso">
-        <div class="barra-relleno"></div>
-      </div>
-
-      <div class="subtitulo-pendientes">
-        <span>❌ PENDIENTES (6)</span>
-      </div>
-      <div id="lista-pendientes">
-        <div class="item-cuota"><span>Cuota para el muro de contención</span><span class="monto-pendiente">S/ 80.00</span></div>
-        <div class="item-cuota"><span>Cuota para ENEL</span><span class="monto-pendiente">S/ 40.00</span></div>
-        <div class="item-cuota"><span>Cuota para el plano local comunal</span><span class="monto-pendiente">S/ 20.00</span></div>
-        <div class="item-cuota"><span>Administrativo Diciembre</span><span class="monto-pendiente">S/ 10.00</span></div>
-        <div class="item-cuota"><span>Administrativo Noviembre</span><span class="monto-pendiente">S/ 10.00</span></div>
-        <div class="item-cuota"><span>Administrativo Octubre</span><span class="monto-pendiente">S/ 10.00</span></div>
-      </div>
-
-      <div class="subtitulo-pagadas">
-        <span>✅ PAGADAS (3)</span>
-      </div>
-      <div id="lista-pagadas">
-        <div class="item-cuota"><span>Cerco perimétrico</span><span class="monto-pagado">S/ 10.00 ✅</span></div>
-        <div class="item-cuota"><span>Carretera La Grama</span><span class="monto-pagado">S/ 10.00 ✅</span></div>
-        <div class="item-cuota"><span>Replantero</span><span class="monto-pagado">S/ 70.00 ✅</span></div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ⚠️ SIN RESULTADO -->
-  <div class="sin-resultado" id="sinResultado">
-    ⚠️ No se encontró información para este lote.<br>
-    Consulta con la junta directiva.
-  </div>
-
-  <script>
-    // ==================================================
-    // 📑 BASE DE DATOS — 43 LOTES + HISTORIAL + CUOTAS
-    // ==================================================
-    const lotes = [
-      {
-        lote: "1", nombre: "TRUJILLO FLORES", deuda: "170.00", estado: "Pendiente",
-        historial: [
-          { anio: "2017 – 2022", faenas: "", reuniones: "", monto: "0.00", estado: "Al día" },
-          { anio: "2023", faenas: "9", reuniones: "2", monto: "0.00", estado: "Al día" },
-          { anio: "2024", faenas: "8", reuniones: "5", monto: "0.00", estado: "Al día" },
-          { anio: "2025", faenas: "39", reuniones: "12", monto: "0.00", estado: "Al día" },
-          { anio: "2026", faenas: "5", reuniones: "8", monto: "0.00", estado: "Al día" }
-        ]
-      },
-      {
-        lote: "39", nombre: "CHAVEZ LEYVA ROGELIO", deuda: "0.00", estado: "Al día",
-        historial: [
-          { anio: "2017 – 2022", faenas: "", reuniones: "", monto: "0.00", estado: "Al día" },
-          { anio: "2023", faenas: "9", reuniones: "2", monto: "0.00", estado: "Al día" },
-          { anio: "2024", faenas: "8", reuniones: "5", monto: "0.00", estado: "Al día" },
-          { anio: "2025", faenas: "39", reuniones: "12", monto: "0.00", estado: "Al día" },
-          { anio: "2026", faenas: "5", reuniones: "8", monto: "0.00", estado: "Al día" }
-        ]
-      }
-      // ➕ AGREGA LOS DEMÁS LOTES SIGUIENDO EL MISMO FORMATO
-      // Lotes 2-38, 40-43 — copia el bloque de arriba y cambia los datos
-    ];
-
-    // ==================================================
-    // 🔍 FUNCIÓN DE CONSULTA
-    // ==================================================
-    function consultarDeuda() {
-      const loteSel = document.getElementById('lote').value;
-      const ficha = document.getElementById('fichaVecino');
-      const sinRes = document.getElementById('sinResultado');
-
-      ficha.classList.remove('visible');
-      sinRes.classList.remove('visible');
-
-      if (!loteSel) { alert('⚠️ Selecciona tu lote'); return; }
-
-      const datos = lotes.find(l => l.lote === loteSel);
-
-      if (!datos) {
-        sinRes.classList.add('visible');
-        return;
-      }
-
-      // Datos básicos
-      document.getElementById('res-nombre').textContent = datos.nombre;
-      document.getElementById('res-lote').textContent = datos.lote;
-      document.getElementById('res-deuda').textContent = datos.deuda;
-      document.getElementById('cuota-total').textContent = datos.deuda;
-      
-      document.getElementById('res-estado').innerHTML = 
-        datos.estado === "Al día" 
-          ? '<span class="estado-al-dia">✅ Al día</span>' 
-          : '<span class="estado-pendiente">⚠️ Pendiente</span>';
-
-      // Renderizar historial
-      const contHist = document.getElementById('contenedor-historial');
-      contHist.innerHTML = datos.historial.map(h => `
-        <div class="tarjeta-anual">
-          <span class="anio">${h.anio}</span>
-          <span class="conteo">(${h.faenas} faenas, ${h.reuniones} reuniones)</span>
-          <span class="etiqueta-estado etiqueta-al-dia">${h.estado}</span>
-          <span class="monto-anual">S/ ${h.monto}</span>
+        <div class="fila-filtros">
+            <div class="grupo-select">
+                <label class="etiqueta">MANZANA</label>
+                <select id="manzana">
+                    <option value="">Selecciona</option>
+                    <option value="C">Manzana C</option>
+                </select>
+            </div>
+            <div class="grupo-select">
+                <label class="etiqueta">LOTE</label>
+                <select id="lote">
+                    <option value="">Selecciona primero la manzana</option>
+                </select>
+            </div>
         </div>
-      `).join('');
 
-      // Mostrar ficha
-      ficha.classList.add('visible');
+        <button class="btn-consultar" onclick="consultar()">Consultar Deuda</button>
+
+        <div class="tarifa-box">
+            <p class="tarifa-titulo">📋 Tarifas:</p>
+            <p class="tarifa-item">⛏️ Faenas antes de 07/09/2025 = S/.50</p>
+            <p class="tarifa-item">⛏️ Faenas desde 07/09/2025 = S/.30</p>
+            <p class="tarifa-item">📋 Reuniones = S/.20</p>
+        </div>
+    </div>
+
+    <!-- RESULTADO -->
+    <div id="resultado" class="hidden">
+        <div class="card-persona">
+            <div class="nombre-persona">
+                <span>👤</span>
+                <span id="nombre-completo"></span>
+                <span class="etiqueta-lote" id="etiqueta-lote"></span>
+            </div>
+            <p class="ubicacion">
+                <span>📍</span>
+                <span id="ubicacion-completa"></span>
+            </p>
+            <div class="deuda-monto" id="deuda-mostrar"></div>
+        </div>
+
+        <div class="divider-section">INFORMACIÓN DEL LOTE</div>
+
+        <div class="card-anio">
+            <div class="header-anio">
+                <div class="anio">📋 Datos registrados</div>
+                <div id="estado-badge"></div>
+            </div>
+            <div class="fila-item">
+                <span>📄 DNI</span>
+                <span id="dni-mostrar">—</span>
+            </div>
+            <div class="fila-item">
+                <span>📞 Teléfono</span>
+                <span id="tel-mostrar">—</span>
+            </div>
+            <div class="fila-item">
+                <span>✍️ Firma registrada</span>
+                <span id="firma-mostrar">Pendiente</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="no-encontrado" class="no-encontrado hidden">
+        ⚠️ No se encontró información para este lote.<br>Consulta con la junta directiva.
+    </div>
+
+<script>
+    // ==============================================
+    // BASE DE DATOS COMPLETA — TODOS LOS LOTES C
+    // ==============================================
+    const baseDatos = {
+        "C-1":  { nombre: "TRUJILLO FLORES",          dni: "", tel: "", deuda: 500 },
+        "C-2":  { nombre: "R GISELA MEDRANO",         dni: "", tel: "", deuda: 0 },
+        "C-3":  { nombre: "CLEDY VANESSA CASTILLO",   dni: "", tel: "", deuda: 0 },
+        "C-4":  { nombre: "LUIS CATILLO ZAMBRANO",    dni: "", tel: "", deuda: 0 },
+        "C-5":  { nombre: "DEYSI NORA QUISPE MENDOZA",dni: "", tel: "", deuda: 0 },
+        "C-6":  { nombre: "ROSA H ROMUALDO QUISPE",   dni: "", tel: "", deuda: 0 },
+        "C-7":  { nombre: "TEGCILA MEDINA SAVEDRA",   dni: "", tel: "", deuda: 0 },
+        "C-8":  { nombre: "CABRERA DELGADO JHONY",    dni: "", tel: "", deuda: 0 },
+        "C-9":  { nombre: "ANGELA RODAS RODAS",       dni: "", tel: "", deuda: 0 },
+        "C-10": { nombre: "ERESVITA ZALAZAR RODAS",   dni: "", tel: "", deuda: 0 },
+        "C-11": { nombre: "ALVIDIO SILVA RODAS",      dni: "", tel: "", deuda: 0 },
+        "C-12": { nombre: "EMILIANO CARMONA TELL",    dni: "", tel: "", deuda: 0 },
+        "C-13": { nombre: "MARIBEL POQUIOMA PULSE",   dni: "", tel: "", deuda: 0 },
+        "C-14": { nombre: "SANCHEZ PEREZ PEPE",       dni: "", tel: "", deuda: 0 },
+        "C-15": { nombre: "JOSE ALEXANDER TORRES",    dni: "", tel: "", deuda: 0 },
+        "C-16": { nombre: "Blanco",                   dni: "", tel: "", deuda: 0 },
+        "C-17": { nombre: "ELI CESPEDES GRABIEL",     dni: "", tel: "", deuda: 0 },
+        "C-18": { nombre: "JAIME MEDINA SABRERA",     dni: "", tel: "", deuda: 0 },
+        "C-19": { nombre: "ROBLES CHÁVEZ AONY",       dni: "", tel: "", deuda: 0 },
+        "C-20": { nombre: "JORGE RIVERA CAMPOS",       dni: "", tel: "", deuda: 0 },
+        "C-21": { nombre: "ESTHER CHIRINOS TRINIDAD", dni: "", tel: "", deuda: 0 },
+        "C-22": { nombre: "TERRONES CABELLOS DORIS",   dni: "", tel: "", deuda: 0 },
+        "C-23": { nombre: "DAVILA SILVA MARIA",        dni: "", tel: "", deuda: 0 },
+        "C-24": { nombre: "CRUZADO MEDINA SARITA",     dni: "", tel: "", deuda: 0 },
+        "C-25": { nombre: "ELIZABETH MENA TIMANO",     dni: "", tel: "", deuda: 0 },
+        "C-26": { nombre: "ELSA EVA ALANYA HINOSTRZA", dni: "", tel: "", deuda: 0 },
+        "C-27": { nombre: "ZENAYDA ALANYA HINOSTRZA",  dni: "", tel: "", deuda: 0 },
+        "C-28": { nombre: "VILLANUEVA CHAVARRIA WILMER",dni: "", tel: "", deuda: 0 },
+        "C-29": { nombre: "VLLANUEVA CHAVARRYA HECTOR",dni: "", tel: "", deuda: 0 },
+        "C-30": { nombre: "MARITZA CISNEROS CHANLETIN",dni: "", tel: "", deuda: 0 },
+        "C-31": { nombre: "NUÑEZ LEON S",          dni: "", tel: "", deuda: 0 },
+        "C-32": { nombre: "CAMPOS NOLASCO",   dni: "", tel: "", deuda: 0 },
+        "C-33": { nombre: "VERÓNICA RAMÍREZ REATIGUE", dni: "", tel: "", deuda: 0 },
+        "C-34": { nombre: "CELMI AGUILAR OTILIO",      dni: "", tel: "", deuda: 0 },
+        "C-35": { nombre: "ALBORNOZ SOLIS CYNTHIA",    dni: "", tel: "", deuda: 0 },
+        "C-36": { nombre: "SOLIS AYALA ANA ROSA",      dni: "", tel: "", deuda: 0 },
+        "C-37": { nombre: "MARTINEZ CUBA JOSE LUIS",   dni: "", tel: "", deuda: 0 },
+        "C-38": { nombre: "VILLENA MAMANI EDUARD",     dni: "", tel: "", deuda: 0 },
+        "C-39": { nombre: "CHAVEZ LEYVA ROGELIO",      dni: "", tel: "", deuda: 0 },
+        "C-40": { nombre: "ISABEL HUANCE SABOYA",      dni: "", tel: "", deuda: 0 },
+        "C-41": { nombre: "JAIME ROMUALDO QUISPE",     dni: "", tel: "", deuda: 0 },
+        "C-42": { nombre: "A.Verde",                          dni: "", tel: "", deuda: 0 },
+        "C-43": { nombre: "A.verde",                          dni: "", tel: "", deuda: 0 }
+    };
+
+    // Cargar lotes según manzana
+    document.getElementById('manzana').addEventListener('change', function() {
+        const mz = this.value;
+        const loteSelect = document.getElementById('lote');
+        loteSelect.innerHTML = '<option value="">Selecciona lote</option>';
+        
+        if (mz === 'C') {
+            for (let i = 1; i <= 43; i++) {
+                loteSelect.innerHTML += `<option value="${i}">Lote C ${i}</option>`;
+            }
+        }
+    });
+
+    function consultar() {
+        const mz = document.getElementById('manzana').value;
+        const lote = document.getElementById('lote').value;
+        const clave = mz + '-' + lote;
+
+        // Ocultar todo
+        document.getElementById('resultado').classList.add('hidden');
+        document.getElementById('no-encontrado').classList.add('hidden');
+
+        // Buscar lote
+        if (baseDatos[clave]) {
+            const d = baseDatos[clave];
+            
+            if (!d.nombre || d.nombre.trim() === '') {
+                document.getElementById('no-encontrado').classList.remove('hidden');
+                return;
+            }
+
+            // Llenar datos
+            document.getElementById('nombre-completo').textContent = d.nombre;
+            document.getElementById('etiqueta-lote').textContent = `MZ ${mz} LT ${lote}`;
+            document.getElementById('ubicacion-completa').textContent = `Manzana ${mz} - Lote ${lote}`;
+            document.getElementById('dni-mostrar').textContent = d.dni || '—';
+            document.getElementById('tel-mostrar').textContent = d.tel || '—';
+
+            // Deuda
+            const deudaEl = document.getElementById('deuda-mostrar');
+            if (d.deuda > 0) {
+                deudaEl.textContent = `Deuda: S/. ${d.deuda}`;
+                deudaEl.style.color = '#ff3b30';
+                document.getElementById('estado-badge').innerHTML = `<span class="estado-deuda">CON DEUDA</span>`;
+            } else {
+                deudaEl.textContent = 'Sin deuda registrada';
+                deudaEl.style.color = '#4ade80';
+                document.getElementById('estado-badge').innerHTML = `<span class="estado-aldia">AL DÍA</span>`;
+            }
+
+            document.getElementById('resultado').classList.remove('hidden');
+        } else {
+            document.getElementById('no-encontrado').classList.remove('hidden');
+        }
     }
-  </script>
+</script>
 
 </body>
-</html>
+  </html>
+  
